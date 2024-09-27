@@ -48,28 +48,18 @@ pgqrcode is a PostgreSQL extension that allows you to generate QR codes in SVG f
 Once the extension is installed, you can generate QR codes using the `generate_qr_code_svg` function:
 
 ```sql
+-- Generate a QR code with default scale (1)
 SELECT generate_qr_code_svg('https://www.kolapsis.com');
+
+-- Generate a QR code with a scale factor of 4
+SELECT generate_qr_code_svg('https://www.kolapsis.com', 4);
 ```
 
+The function accepts two parameters:
+1. The content to encode in the QR code (required)
+2. A scale factor to adjust the size of the SVG (optional, default is 1)
+
 This function returns an SVG string representing the QR code for the provided text.
-
-## Examples
-
-1. Generate a QR code for a URL:
-   ```sql
-   SELECT generate_qr_code_svg('https://www.kolapsis.com');
-   ```
-
-2. Save the QR code in a table:
-   ```sql
-   CREATE TABLE qr_codes (id SERIAL PRIMARY KEY, content TEXT, svg TEXT);
-   INSERT INTO qr_codes (content, svg) VALUES ('Hello, World!', generate_qr_code_svg('Hello, World!'));
-   ```
-
-3. Retrieve and use the QR code:
-   ```sql
-   SELECT svg FROM qr_codes WHERE content = 'Hello, World!';
-   ```
 
 ## Limitations
 
