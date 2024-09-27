@@ -13,7 +13,7 @@ generate_qr_code_svg(PG_FUNCTION_ARGS)
 {
     text *input_text;
     char *input_str;
-    enum qrcodegen_Ecc errCorLvl;
+    float8 scale;
     uint8_t qr[qrcodegen_BUFFER_LEN_MAX];
     uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
     bool success;
@@ -24,10 +24,9 @@ generate_qr_code_svg(PG_FUNCTION_ARGS)
 
     input_text = PG_GETARG_TEXT_PP(0);
     input_str = text_to_cstring(input_text);
-    
-    errCorLvl = qrcodegen_Ecc_LOW;
-    
-    success = qrcodegen_encodeText(input_str, tempBuffer, qr, errCorLvl,
+    scale = PG_GETARG_FLOAT8(1);
+
+    success = qrcodegen_encodeText(input_str, tempBuffer, qr, qrcodegen_Ecc_LOW,
         qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
     
     if (!success) {
@@ -39,14 +38,15 @@ generate_qr_code_svg(PG_FUNCTION_ARGS)
     size = qrcodegen_getSize(qr);
     initStringInfo(&buf);
     
-    appendStringInfo(&buf, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 %d %d\" stroke=\"none\">", size, size);
+    appendStringInfo(&buf, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 %d %d\" stroke=\"none\">", size * scale, size * scale);
     appendStringInfo(&buf, "<rect width=\"100%%\" height=\"100%%\" fill=\"#FFFFFF\"/>");
     appendStringInfo(&buf, "<path d=\"");
     
     for (y = 0; y < size; y++) {
         for (x = 0; x < size; x++) {
             if (qrcodegen_getModule(qr, x, y)) {
-                appendStringInfo(&buf, "M%d,%dh1v1h-1z ", x, y);
+                // appendStringInfo(&buf, "M%d,%dh1v1h-1z ", x, y);
+                appendStringInfo(&buf, "M%f,%fh%fv%fh-%fz ", x * scale, y * scale, scale, scale, scale);
             }
         }
     }
