@@ -1,5 +1,5 @@
 # pgqrcode extension
 comment = 'QR code generation extension for PostgreSQL'
-default_version = '0.0.1'
-module_pathname = '$libdir/pgqrcode-0.0.1'
+default_version = '1.0.0'
+module_pathname = '$libdir/pgqrcode-1.0.0'
 relocatable = true
