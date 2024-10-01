@@ -86,3 +86,7 @@ This project is licensed under the MIT License. See the [LICENSE.md](LICENSE) fi
 
 - [Nayuki](https://github.com/nayuki) for the QR Code generator library.
 - The PostgreSQL community for their excellent resources on extension development.
+
+# Me
+
+Visit my website https://www.kolapsis.com
