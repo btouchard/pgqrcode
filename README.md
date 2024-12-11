@@ -1,3 +1,11 @@
+# ARCHIVED
+
+This repository is no longer maintained.
+use instead the new pg_barcode project for QRCode & Datamatrix generation
+
+-------------------------------------------------------------------------
+
+
 # pgqrcode
 
 pgqrcode is a PostgreSQL extension that allows you to generate QR codes in SVG format directly from your database.
